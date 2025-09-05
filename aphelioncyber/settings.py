@@ -16,6 +16,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']  # For development only, restrict this in production
 
+# CSRF settings for Replit
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.replit.dev',
+    'https://*.repl.co',
+]
+
 
 # Application definition
 
