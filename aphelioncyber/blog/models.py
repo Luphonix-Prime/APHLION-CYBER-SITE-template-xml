@@ -24,7 +24,7 @@ class BlogIndexPage(Page):
 
 class BlogPage(Page):
     date = models.DateTimeField("Post date")
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='blog_posts')
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
     featured_image = models.ForeignKey(
@@ -75,7 +75,7 @@ class WebinarPage(Page):
     ]
 
     date = models.DateTimeField("Event date")
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='webinar_posts')
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='webinar_posts')
     intro = models.CharField(max_length=250)
     description = RichTextField(blank=True)
     featured_image = models.ForeignKey(
