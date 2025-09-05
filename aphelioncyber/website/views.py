@@ -4,7 +4,7 @@ from .forms import ContactForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from .models import UserSubscription
+from .models import UserSubscription, ServicePageContent
 from django.http import HttpResponse
 import csv
 from reportlab.pdfgen import canvas
@@ -98,7 +98,22 @@ def incident_response(request):
     return render(request, 'website/incident_response.html')
 
 def deep_web_monitoring(request):
-    return render(request, 'website/deep_web_monitoring.html')
+    # Try to get dynamic content from database
+    try:
+        page_content = ServicePageContent.objects.get(slug='deep-web-monitoring', is_active=True)
+        context = {
+            'page_content': page_content,
+            'sections': page_content.get_sections(),
+            'benefits': page_content.get_benefits(),
+            'solutions': page_content.get_solutions(),
+            'process_steps': page_content.get_process_steps(),
+            'statistics': page_content.get_statistics(),
+        }
+    except ServicePageContent.DoesNotExist:
+        # Fallback to static template if no dynamic content
+        context = {}
+    
+    return render(request, 'website/deep_web_monitoring.html', context)
 
 def security_operations_center(request):
     return render(request, 'website/security_operations_center.html')
